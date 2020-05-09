@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[通过docker-compose运行mysql8 [转载]]]></title>
+    <url>%2Fmysql-docker-mysql.html</url>
+    <content type="text"><![CDATA[原文链接： https://www.cnblogs.com/cloudfloating/p/11541020.html 目录结构123456789.│─.env│─docker-compose.yml│└─mysql ├─config │ my.cnf │ └─data mysql 目录下的 data 为数据目录，mysql 的数据表、二进制日志文件就在这里。.env 文件包含了一些变量，这些变量可以在 docker-compose.yml 文件中通过 ${variable_name} 来引用。 当然也可以把 mysql 的目录放到其它地方，这里图个方便，直接放在 yml 文件同级目录了。 .env 文件1234MYSQL_ROOT_PASSWORD=rootMYSQL_ROOT_HOST=%MYSQL_DIR=./mysql MySQL 配置文件 my.cnf123456[mysqld]character-set-server=utf8mb4default-time-zone=&apos;+8:00&apos;innodb_rollback_on_timeout=&apos;ON&apos;max_connections=500innodb_lock_wait_timeout=500 如果使用默认配置，这个文件可以省略。 docker-compose.yml12345678910111213version: '3'services: mysql-db: container_name: mysql # 指定容器的名称 image: mysql:8.0 # 指定镜像和版本 ports: - "3306:3306" environment: MYSQL_ROOT_PASSWORD: $&#123;MYSQL_ROOT_PASSWORD&#125; MYSQL_ROOT_HOST: $&#123;MYSQL_ROOT_HOST&#125; volumes: - "$&#123;MYSQL_DIR&#125;/data:/var/lib/mysql" # 挂载数据目录 - "$&#123;MYSQL_DIR&#125;/config:/etc/mysql/conf.d" # 挂载配置文件目录 Environment 变量 MYSQL_ROOT_PASSWORD ：root 用户的密码。 MYSQL_USER，MYSQL_PASSWORD ：这两个变量为可选，创建一个新用户，这个用户在 MYSQL_DATABASE 变量指定的数据库上拥有超级用户权限。 MYSQL_DATABASE ：指定一个数据库，在容器启动时创建。 MYSQL_ALLOW_EMPTY_PASSWORD ：设置为 yes 允许 root 用户的密码为空。（不推荐） MYSQL_RANDOM_ROOT_PASSWORD ：设置为 yes 将在容器启动时为 root 用户生成一个随机的密码，密码会显示到标准输出流（GENERATED ROOT PASSWORD:......）。 MYSQL_ONETIME_PASSWORD ：字面意思就是一次性密码，为 root 用户设置，第一次登录后必须修改密码（仅支持 5.6 以上的版本）。 运行容器123docker-compose up -d # 启动容器 -d表示后台运行docker-compose down # 停止容器，停止后都会删除容器docker-compose stop # 停止后，再次启动使用 start 命令即可]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[eclipse快捷键]]></title>
+    <url>%2Feclipse-shortcut.html</url>
+    <content type="text"><![CDATA[Windows下的操作 快捷键 功能说明 F3 进入类或方法体 Ctrl+Shift+x 大写 Ctrl+Shift+y 小写 Ctrl+Shift+g 查看在哪里被调用]]></content>
+      <categories>
+        <category>eclipse</category>
+      </categories>
+      <tags>
+        <tag>eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Eclipse设置tab缩进为四个空格]]></title>
+    <url>%2Feclipse-tab-space.html</url>
+    <content type="text"><![CDATA[设置Text Editors Preferences -&gt; General -&gt; Editors -&gt; Text Editors，勾选Insert spaces for tabs，点击Apply 设置 Java Formatter Preferences -&gt; Java &gt; Code Style -&gt; Formatter, 点击New…；在New Profile窗口中，填写Profile name之后，点击OK 在弹出的Profile ‘…’窗口中，展开Indentation，设置Tab policy: Spaces only，点击OK]]></content>
+      <categories>
+        <category>eclipse</category>
+      </categories>
+      <tags>
+        <tag>eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[maven常用操作备忘]]></title>
+    <url>%2Fmaven-relate.html</url>
+    <content type="text"><![CDATA[导出项目依赖的jar包1mvn dependency:copy-dependencies -DoutputDirectory=lib]]></content>
+      <categories>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sourcetree安装时如何跳过注册]]></title>
+    <url>%2Fsourcetree-jump-regist.html</url>
+    <content type="text"><![CDATA[windows环境在目录下 1%LocalAppData%\Atlassian\SourceTree\ 创建account.json 123456789101112131415161718192021222324[ &#123; &quot;$id&quot;: &quot;1&quot;, &quot;$type&quot;: &quot;SourceTree.Api.Host.Identity.Model.IdentityAccount, SourceTree.Api.Host.Identity&quot;, &quot;Authenticate&quot;: true, &quot;HostInstance&quot;: &#123; &quot;$id&quot;: &quot;2&quot;, &quot;$type&quot;: &quot;SourceTree.Host.Atlassianaccount.AtlassianAccountInstance, SourceTree.Host.AtlassianAccount&quot;, &quot;Host&quot;: &#123; &quot;$id&quot;: &quot;3&quot;, &quot;$type&quot;: &quot;SourceTree.Host.Atlassianaccount.AtlassianAccountHost, SourceTree.Host.AtlassianAccount&quot;, &quot;Id&quot;: &quot;atlassian account&quot; &#125;, &quot;BaseUrl&quot;: &quot;https://id.atlassian.com/&quot; &#125;, &quot;Credentials&quot;: &#123; &quot;$id&quot;: &quot;4&quot;, &quot;$type&quot;: &quot;SourceTree.Model.BasicAuthCredentials, SourceTree.Api.Account&quot;, &quot;Username&quot;: &quot;&quot;, &quot;Email&quot;: null &#125;, &quot;IsDefault&quot;: false &#125;] Mac环境打开SourceTree –&gt; 关闭SourceTree –&gt; 然后在终端输入： 1defaults write com.torusknot.SourceTreeNotMAS completedWelcomeWizardVersion 3 之后再打开SourceTree即可。]]></content>
+      <categories>
+        <category>sourcetree</category>
+      </categories>
+      <tags>
+        <tag>sourcetree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Angular中自定义路由复用策略]]></title>
+    <url>%2Fangular-route-reuse.html</url>
+    <content type="text"><![CDATA[页面前进后退时，能保持之前的状态。 代码实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162// 1. 写一个类实现`RouteReuseStrategy`接口[如果是Ionic工程则需要实现IonicRouteStrategy]自定义路由复用策略import &#123;ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy&#125; from '@angular/router'; export class CustomRouteReuseStrategy implements RouteReuseStrategy &#123; handlers: &#123; [key: string]: DetachedRouteHandle &#125; = &#123;&#125;; shouldDetach(route: ActivatedRouteSnapshot): boolean &#123; return route.data.reload || false; &#125; store(route: ActivatedRouteSnapshot, handle: &#123;&#125;): void &#123; if (route.data.reload &amp;&amp; this.getUrl(route)) &#123; this.handlers[this.getUrl(route)] = handle; &#125; &#125; shouldAttach(route: ActivatedRouteSnapshot): boolean &#123; return !!this.handlers[this.getUrl(route)]; &#125; retrieve(route: ActivatedRouteSnapshot): any &#123; if (!this.getUrl(route)) &#123; return null; &#125; return this.handlers[this.getUrl(route)]; &#125; shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean &#123; return future.routeConfig === curr.routeConfig &amp;&amp; JSON.stringify(future.params) === JSON.stringify(curr.params); &#125; getUrl(route: ActivatedRouteSnapshot) &#123; if (!route.parent.url.join('/') || !route.url.join('/'))&#123; return null; &#125; let url = ''; if (route.parent.url.join('/')) &#123; url += route.parent.url.join('/') + '/'; &#125; if (route.url.join('/')) &#123; url += route.url.join('/'); &#125; return url === '' ? null : url; &#125;&#125;// 2. 在AppModule中配置@NgModule(&#123; declarations: [ ... ], import: &#123; ... &#125; providers: [ &#123; provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy &#125; ]&#125;)// 3. 在Routing中配置const routes: Routes = [ ..., &#123; path: 'class-list', component: ClassListPage, data: &#123; reload: true &#125; &#125;];]]></content>
+      <categories>
+        <category>angular</category>
+      </categories>
+      <tags>
+        <tag>angular</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[eclipse常用操作备忘]]></title>
+    <url>%2Feclipse-relate.html</url>
+    <content type="text"><![CDATA[eclipse静态导入，自动提示静态方法 Window-&gt;Preferences-&gt;Java-&gt;Editor-&gt;Content Assist-&gt;Favorites 在以上位置添加相应的类，比如：org.junit.jupiter.api.Assertions 问题处理eclipse中pom.xml文件第一行报错：Maven Configuration Problem解决办法在pom.xml文件加添加maven-jar-plugin.version属性123&lt;properties&gt; &lt;maven-jar-plugin.version&gt;3.0.0&lt;/maven-jar-plugin.version&gt;&lt;/properties&gt;]]></content>
+      <categories>
+        <category>eclipse</category>
+      </categories>
+      <tags>
+        <tag>eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker安装gitlab备忘（转载）]]></title>
+    <url>%2Fgitlab-install-docker.html</url>
+    <content type="text"><![CDATA[拉取镜像1docker pull gitlab/gitlab-ce gitlab-ce为稳定版本，后面不填写版本则默认pull最新latest版本 启动容器12345docker run -d -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce# -d：后台运行# -p：将容器内部端口向外映射# --name：命名容器名称# -v：将容器内数据文件夹或者日志、配置等文件夹挂载到宿主机指定目录 调整配制按上面的方式，gitlab容器运行没问题，但在gitlab上创建项目的时候，生成项目的URL访问地址是按容器的hostname来生成的，也就是容器的id。作为gitlab服务器，我们需要一个固定的URL访问地址，于是需要配置gitlab.rb（宿主机路径：/home/gitlab/config/gitlab.rb）。 12# gitlab.rb文件内容默认全是注释$ vim /home/gitlab/config/gitlab.rb 1234567# 配置http协议所使用的访问地址,不加端口号默认为80external_url 'http://192.168.199.231'# 配置ssh协议所使用的访问地址和端口gitlab_rails['gitlab_ssh_host'] = '192.168.199.231'gitlab_rails['gitlab_shell_ssh_port'] = 222 # 此端口是run时22端口映射的222端口:wq #保存配置文件并退出 12# 重启gitlab容器$ docker restart gitlab 作者：王诗林原文链接：https://www.jianshu.com/p/080a962c35b6来源：简书著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>gitlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[通过docker-compose搭建gitlab服务]]></title>
+    <url>%2Fgitlab-service-docker-compose.html</url>
+    <content type="text"><![CDATA[创建docker-compose.yml123456789101112131415161718version: '3.6'services: gitlab: container_name: gitlab image: 'gitlab/gitlab-ce' hostname: '192.168.12.16' restart: always environment: GITLAB_OMNIBUS_CONFIG: | external_url 'http://192.168.12.16' ports: - '80:80' - '443:443' - '22:22' volumes: - '/tmp/gitlab/conf:/etc/gitlab' - '/tmp/gitlab/data:/var/opt/gitlab' - '/tmp/gitlab/logs:/var/log/gitlab' 启动服务1docker-compose up -d --build 感言本来是想在windows上整一下，后面发现各种报错，于是直接放弃，在linux上基本没什么问题。]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>gitlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker镜像加速设置]]></title>
+    <url>%2Fdocker-image-accelerate.html</url>
+    <content type="text"><![CDATA[复制镜像地址登录阿里云网址1https://cr.console.aliyun.com 1镜像中心 &gt; 镜像加速器 &gt; 复制镜像地址 配制镜像地址桌面顶栏的 docker图标, 选择 Preferences, 在 Daemon 标签下的 Registry mirrors 列表中粘贴所复制的镜像地址。]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[阿里云镜像仓库中镜像的推送及拉取]]></title>
+    <url>%2Fdocker-aliyun-trans.html</url>
+    <content type="text"><![CDATA[推送镜像至阿里云镜像仓库123456# 登录docker login --username=abc registry.cn-hangzhou.aliyuncs.com# 重命名镜像，非Docker官方镜像仓库需要把仓库域名加上tag ce941d6893d6 registry.cn-hangzhou.aliyuncs.com/lglspace/jre1.8-alpine:v1.0.0# 推送镜像docker push registry.cn-hangzhou.aliyuncs.com/lglspace/jre1.8-alpine:v1.0.0 从阿里云镜像仓库拉取镜像12docker login --username=abc registry.cn-hangzhou.aliyuncs.comdocker pull registry.cn-hangzhou.aliyuncs.com/lglspace/jre1.8-alpine:v1.0.0]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[PostgreSQL密码文件配置]]></title>
+    <url>%2Fpostgresql-pgpass-conf.html</url>
+    <content type="text"><![CDATA[PostgreSQL密码文件可以免除手动输入密码的痛苦，在数据备份等需要手动输入密码的场景下较实用。 一、文件路径linux在home路径下新建文件 .pgpass windows文件路径为 %APPDATA%\Roaming\postgresql\pgpass.conf 注：%APPDATA%某些电脑默认是隐藏的，一般在”C:\Users\用户名\AppData” 二、内容格式 hostname:port:database:username:password 示例： 12localhost:5432:TestDb:TestUser:12345 localhost:5432:*:*:abc //可以使用通配符 三、测试1pgsql -U TestUser 发现可以直接登录！]]></content>
+      <categories>
+        <category>postgresql</category>
+      </categories>
+      <tags>
+        <tag>postgresql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何在Mac中插入特殊符号]]></title>
+    <url>%2Fmac-special-char.html</url>
+    <content type="text"><![CDATA[在菜单栏中显示虚拟键盘及表情检视器打开键盘偏好设置，选择: 在菜单栏中显示虚拟键盘及表情检视器 点击输入法，选择：显示表情与符 选择相应的符号，进行插入吧 点击右上角图标，可以选择 技术符号,比如 ⌘。]]></content>
+      <categories>
+        <category>mac</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker常见问题处理]]></title>
+    <url>%2Fdocker-relate.html</url>
+    <content type="text"><![CDATA[问题列表windows下启动容器报错：docker: Error response from daemon: Drive has not been shared处理方法1234右击“docker desktop is runing”(电脑右下角) 点击“settings&quot; 再点击“shared Drives”然后把磁盘都勾上]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[postgresql相关笔记]]></title>
+    <url>%2Fpostgresql-relate.html</url>
+    <content type="text"><![CDATA[Mac下安装brew安装1brew install postgresql 初始化数据库1initdb /Users/lglspace/appdata/postgres 启动数据库1pg_ctl -D /Users/lglspace/appdata/postgres -l /Users/lglspace/appdata/logs/postgres.log start docker启动1docker run --name postgres -d -p 5432:5432 -e POSTGRES_PASSWORD=123456 -e POSTGRES_USER=admin -e POSTGRES_DB=myapp postgres]]></content>
+      <categories>
+        <category>postgresql</category>
+      </categories>
+      <tags>
+        <tag>postgresql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[postgresql常用操作备忘]]></title>
+    <url>%2Fpostgresql-relate.html</url>
+    <content type="text"><![CDATA[数据库常用操作12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#指定用户登录到本地的指定库psql -U postgres -D postgres#连接数据库psql -h localhost -U admin -W -d myapp#查看数据库列表\l#创建数据库create database myapp#选择数据库\c myapp#查看数据表列表\d#创建数据表create table company( id int primary key not null, name text not null);#插入数据insert into company(id,name) values(1,'test');#查询数据select * from company;#更新数据update company set name='newtest' where id=1;#删除数据delete from company;#创建用户（待验证）createuser postgres -P -U admin -W#创建用户（注意末尾分号）create user postgres with password 'postgres';#修改postgres数据库的owneralter database postgres owner to postgres;#为postgres用户添加创建数据库的权限alter role postgres createdb;#修改密码alter role postgres with password 'postgres';#修改用户密码\password lglspace#增加用户权限alter role postgres superuser createrole createdb; #查看所有用户及权限相关信息\du #退出\q 注：在使用过程中发，分号非常重要不能省略。### 数据导出123# -s 选项用来只导出表结构，而不会导出表中的数据# -t 选项用来指定要导出的数据库表docker exec -it postgres pg_dump -U admin -s -d myapp -t company &gt; ./company.sql### 数据导入1docker exec -i postgres psql -U admin myapp &lt; ./company.sql### 建库、用户及授权1234psql -U postgres -Wcreate user &quot;TestUser&quot; with password &quot;test&quot;; create database &quot;TestDb&quot; owner &quot;TestUser&quot;;grant all privileges on database &quot;TestDb&quot; to &quot;TestUser&quot;;注：postgres默认是大小写不敏感的，如果需要用大写，引号不可省略，切记分号也不可以省略。]]></content>
+      <categories>
+        <category>postgresql</category>
+      </categories>
+      <tags>
+        <tag>postgresql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[IntelliJ IDEA下SpringBoot应用实现热部署]]></title>
+    <url>%2Fjava-idea-hotdeploy.html</url>
+    <content type="text"><![CDATA[1、IntelliJ IDEA配制 Ctrl+Shift+Alt+/ 进入Registry 2.引入devtool依赖12345 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt; &lt;optional&gt;true&lt;/optional&gt;&lt;/dependency&gt;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[在SpringBoot应用中使用MockMVC进行单元测试示例]]></title>
+    <url>%2Fjava-springboot-mockmvc.html</url>
+    <content type="text"><![CDATA[确认依赖是否存在12345 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt;&lt;/dependency&gt; 示例代码12345678910111213141516171819202122232425262728293031323334353637383940414243import com.lifetimc.studylab.springboot.service.HelloService;import org.junit.Test;import org.junit.runner.RunWith;import org.mockito.Mockito;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;import org.springframework.boot.test.context.SpringBootTest;import org.springframework.boot.test.mock.mockito.MockBean;import org.springframework.http.MediaType;import org.springframework.test.context.junit4.SpringRunner;import org.springframework.test.web.servlet.MockMvc;import org.springframework.test.web.servlet.MvcResult;import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;import org.springframework.test.web.servlet.result.MockMvcResultMatchers;@RunWith(SpringRunner.class)@SpringBootTest@AutoConfigureMockMvcpublic class StudylabSpringbootApplicationTests &#123; @MockBean private HelloService helloService; @Autowired private MockMvc mockMvc; @Test public void contextLoads() &#123; Mockito.when( helloService.getHelloName() ).thenReturn("world"); try &#123; MvcResult result = mockMvc.perform( MockMvcRequestBuilders.get("/hello") .contentType(MediaType.APPLICATION_JSON_UTF8) ).andExpect(MockMvcResultMatchers.status().isOk()) .andExpect(MockMvcResultMatchers.content().string("hello world")) //.andDo(MockMvcResultHandlers.print()) .andReturn(); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125; &#125;&#125;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git常见问题处理]]></title>
+    <url>%2Fgit-problem.html</url>
+    <content type="text"><![CDATA[出现的问题及解决方法fatal: refusing to merge unrelated histories12#把两段不相干的分支进行强行合并git pull origin master --allow-unrelated-histories fatal: unable to access ‘https&#58;//github.com/&#42;&#42;&#42;&#47;***’: SSL connect error123git config --global http.sslversion tlsv1#或者git config --global http.sslVerify false //设置跳过SSL证书验证 warning: LF will be replaced by CRLF in …1git config --global core.autocrlf false git无法添加子文件夹12git rm --cached folder #其中 folder 为子文件夹。git add folder]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker常用命令备忘]]></title>
+    <url>%2Fdocker-relate.html</url>
+    <content type="text"><![CDATA[docker常用命令1docker container prune]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mac相关快捷键]]></title>
+    <url>%2Fmac-shortcut-key.html</url>
+    <content type="text"><![CDATA[快捷键 功能说明 Command-W 关闭最前面的窗口。 Option-Command-W 关闭应用的所有窗口 Control-Command-F 全屏使用应用（如果应用支持) Command-Delete 将所选项移到废纸篓 Shift-Command-Delete 清倒废纸篓 fn+F11 快速切换至桌面]]></content>
+      <categories>
+        <category>mac</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker安装相关备忘]]></title>
+    <url>%2Fdocker-install.html</url>
+    <content type="text"><![CDATA[windows10安装docker摘自源文：https://www.cnblogs.com/5bug/p/8506085.html 一、启用Hyper-V打开控制面板 - 程序和功能 - 启用或关闭Windows功能，勾选Hyper-V，然后点击确定即可，如图： 注：UEFI BIOS UTILITY 启动虚拟化按del进入UEFI，然后点击ADVENCED MODE，或按F7。在上面的选项卡中找到Advanced，点击后打开CPU Configuration。在其中找到Intel Virtualization Technology，将disabled改为enable。然后按F10保存并退出 二、安装DockerDocker下载地址为：https://store.docker.com/editions/community/docker-ce-desktop-windows 三、启动Docker1.在桌面找到Docker for Windows快捷方式，双击启动即可！启动成功后托盘处会有一个小鲸鱼的图标。打开命令行输入命令：docker version可以查看当前docker版本号，如图： 2.更换镜像源地址中国官方镜像源地址为：https://registry.docker-cn.com点击托盘处docker图标右键选择-Settings，然后修改如下：点击Apply后会重启Docker。 四、遇到的问题docker 提示 Drive has not been shared 错误需要共享磁盘，右击“docker desktop is runing”，就是电脑右下角的一个图标。点击“settings” 再点击“shared Drives”]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[IntelliJ IDEA常见问题处理]]></title>
+    <url>%2Fintellij-idea-problem.html</url>
+    <content type="text"><![CDATA[IntelliJ IDEA插件搜索非常缓慢 Settings-&gt;Appearance &amp; Behavior -&gt; System Settings -&gt; Updates -&gt; 取消勾选 Use secure connection]]></content>
+      <categories>
+        <category>IDEA</category>
+      </categories>
+      <tags>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mongodb相关备忘]]></title>
+    <url>%2Fmongodb-relate.html</url>
+    <content type="text"><![CDATA[下载地址：https://www.mongodb.com/download-center/community mongodb安装及常用操作,可参见网页：https://www.runoob.com/mongodb/mongodb-window-install.html]]></content>
+      <categories>
+        <category>mongodb</category>
+      </categories>
+      <tags>
+        <tag>mongodb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Goland相关设置]]></title>
+    <url>%2Fgoland-relate.html</url>
+    <content type="text"><![CDATA[常见问题CreateProcess failed with error 216 (no message available)运行go程序时报此错，原因主程序的package,必须为1package main build constraints exclude all Go files静态文件绑定时会出现此问题，网上查了下，原因是goland对文件大小有限制解决办法，在 help -&gt; edit custome properties 新加配制，然后重启goland1idea.max.intellisense.filesize=999999]]></content>
+      <categories>
+        <category>goland</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+        <tag>goland</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[python收发邮件]]></title>
+    <url>%2Fpython-email.html</url>
+    <content type="text"><![CDATA[发送邮件1234567891011121314151617import smtplibfrom email.mime.text import MIMETextfrom_addr = ''password = ''to_addr = smtp_server = 'smtp.163.com'msg = MIMEText('python send email test...','plain','utf-8')msg['From'] = 'abc&lt;%s&gt;'% from_addrmsg['To'] = 'test@test.com'msg['Subject'] = 'Python邮件测试'server = smtplib.SMTP(smtp_server,25)server.login(from_addr,password)server.sendmail(from_addr,to_addr,msg.as_string())server.quit() 收取邮件123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137import datetimeimport refrom email.header import decode_headerfrom email.parser import Parserfrom email.utils import parseaddrfrom poplib import POP3# 解析消息头中的字符串# 没有这个函数，print出来的会使乱码的头部信息。如'=?gb18030?B?yrXWpL3hufsueGxz?='这种# 通过decode，将其变为中文def decode_str(s): value, charset = decode_header(s)[0] if charset: value = value.decode(charset) return value# 解码邮件信息分为两个步骤，第一个是取出头部信息# 首先取头部信息# 主要取出['From','To','Subject']# 如上述样式，均需要解码def get_header(emailNo,msg): for header in ['From', 'To', 'Subject','Date']: value = msg.get(header, '') if value: # 文章的标题有专门的处理方法 if header == 'Subject': value = decode_str(value) elif header in ['From', 'To']: # 地址也有专门的处理方法 hdr, addr = parseaddr(value) name = decode_str(addr) # value = name + ' &lt; ' + addr + ' &gt; ' value = name elif header == 'Date': utcstr = value if '+0000' in utcstr: regex = re.compile('.+?,\s*') utcstr = regex.sub('', utcstr) localdatetime = datetime.datetime.strptime(utcstr, '%d %b %Y %H:%M:%S +0000') \ + datetime.timedelta(hours=+8) elif '+0800' in utcstr: utcstr = utcstr.replace(' (CST)','') regex = re.compile('.+?,\s*') utcstr = regex.sub('', utcstr) localdatetime = datetime.datetime.strptime(utcstr, '%d %b %Y %H:%M:%S +0800') value = localdatetime print(str(emailNo)+'-&gt;'+header + ':' + str(value))# 头部信息已取出# 获取邮件的字符编码，首先在message中寻找编码，如果没有，就在header的Content-Type中寻找def guess_charset(msg): charset = msg.get_charset() if charset is None: content_type = msg.get('Content-Type', '').lower() pos = content_type.find('charset=') if pos &gt;= 0: charset = content_type[pos + 8:].strip() return charset if charset is not None else "gb2312"# 邮件正文部分# 取附件# 邮件的正文部分在生成器中，msg.walk()# 如果存在附件，则可以通过.get_filename()的方式获取文件名称def get_resume_html(revcSer, emailNo): rsp, msg, size = revcSer.retr(emailNo) # lines存储了邮件的原始文本的每一行, # 可以获得整个邮件的原始文本: msg_content = b'\r\n'.join(msg).decode('gb2312') # 稍后解析出邮件: msg = Parser().parsestr(msg_content) charset = guess_charset(msg) get_header(emailNo,msg) for part in msg.walk(): filename = part.get_filename() if filename != None: # 如果存在附件 filename = decode_str(filename) # 获取的文件是乱码名称，通过一开始定义的函数解码 data = part.get_payload(decode=True) # 取出文件正文内容 if filename == 'resume.html': return data.decode(encoding=charset) else: continue return ""def get_content(msg): for part in msg.walk(): content_type = part.get_content_type() charset = guess_charset(part) # 如果有附件，则直接跳过 if part.get_filename() != None: continue email_content_type = '' content = '' if content_type == 'text/plain': email_content_type = 'text' elif content_type == 'text/html': print('html 格式 跳过') continue # 不要html格式的邮件 email_content_type = 'html' if charset: try: content = part.get_payload(decode=True).decode(charset) except AttributeError: print('type error') except LookupError: print("unknown encoding: utf-8") if email_content_type == '': continue # 如果内容为空，也跳过 print(email_content_type + ' ----- ' + content)# get_file(msg)if __name__ == '__main__': emailInfo = &#123;&#125;; revcSer = POP3(emailInfo["popServer"]) revcSer.user(emailInfo["username"]) revcSer.pass_(emailInfo["passwd"]) response = revcSer.stat() maxSize = int(response[0]) response = revcSer.capa() for emailNo in range(maxSize,maxSize-50 ,-1): resumHtml = get_resume_html(revcSer, emailNo) if resumHtml != "": print(resumHtml) break revcSer.quit()]]></content>
+      <categories>
+        <category>python</category>
+        <category>email</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mongodb安装]]></title>
+    <url>%2Fmongodb-install.html</url>
+    <content type="text"><![CDATA[docker方式安装12345678910#拉取镜像docker pull mongo#启动容器docker run -d --net=host --name mongodb -v /d/appdata/mongodb/db:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin mongo #进入命令行docker exec -it mongodb /usr/bin/mongo -u admin -p admin#测试use testdb.user.insert(&#123;"id":1,"name":"测试"&#125;);db.user.find()]]></content>
+      <categories>
+        <category>mongodb</category>
+      </categories>
+      <tags>
+        <tag>mongodb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Git Gui中文乱码处理]]></title>
+    <url>%2Fgitgui-relate.html</url>
+    <content type="text"><![CDATA[修改设置12Edit &gt; Options将图中两处的编码设置为 Unicode(UTF-8)]]></content>
+      <categories>
+        <category>gitgui</category>
+      </categories>
+      <tags>
+        <tag>gitgui</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[python解析yaml]]></title>
+    <url>%2Fpython-yaml.html</url>
+    <content type="text"><![CDATA[安装依赖1pip install pyyaml 解析封装YamlConfUtil.py1234567891011121314151617181920212223import osimport yamldef __initInfo(*confFilePaths): tempInfo = &#123;&#125; global confDict for i, element in enumerate(confFilePaths): tempInfo = dict(tempInfo,**__parseInfo(str(element))) confDict = &#123;**confDict, **tempInfo&#125;def getConfDict(confName): return confDict[confName];def __parseInfo(confFilePath): f = open(confFilePath, encoding='utf-8') confInfo = yaml.load(f, yaml.FullLoader) f.close() return confInfoconfDict = &#123;&#125;__initInfo(os.path.dirname(__file__)+"/../conf/resume-conf.yaml")]]></content>
+      <categories>
+        <category>python</category>
+        <category>yaml</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Pipevn使用笔记]]></title>
+    <url>%2Fpipenv-relate.html</url>
+    <content type="text"><![CDATA[Pipenv是什么Python虚拟环境和依赖管理工具 pipenv安装1pip install pipenv pipenv创建虚拟环境12345678910//创建python3虚拟环境pipenv --three //查看虚拟环境所在位置pipenv --venv//安装依赖示例pipenv install requests//查看已安装的软件pipen graph//安装pipfile.lock的所有包pipenv sync python镜像源设置windows %APPDATA%\pip\pip.inilinux/mac $HOME/.pip/pip.conf123[global]timeout = 60index-url = https://pypi.doubanio.com/simple 注意： **如果使用http链接，需要指定trusted-host参数1234[global]timeout = 60index-url = http://pypi.douban.com/simpletrusted-host = pypi.douban.com]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>pipenv</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[angular的安装初始化]]></title>
+    <url>%2Fangular-install.html</url>
+    <content type="text"><![CDATA[安装Angular CLI1npm install -g @angular/cli 创建应用pimc-app1234ng new pimc-app#若有报错，采用如下方式ng new pimc-app –skip-installcnpm install 启动用户123cd pimc-app# --open（或只用 -o）选项会自动打开浏览器ng serve --open 导入ng-zorro-antd模块1ng add ng-zorro-antd 构建和部署1ng build --prod 为angular设置全局包管理器1ng config set --global packageManager=cnpm 卸载angular cli12npm uninstall -g @angular/clinpm cache clean -f]]></content>
+      <categories>
+        <category>angular</category>
+      </categories>
+      <tags>
+        <tag>angular</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Beyond Compare相关笔记]]></title>
+    <url>%2Fbeyond-compare-relate.html</url>
+    <content type="text"><![CDATA[遇到的问题及解决方法this license key has been revoked: 1822-95971将安装目录下的BC4Key.txt重命名为BC4Key.back]]></content>
+      <categories>
+        <category>others</category>
+      </categories>
+      <tags>
+        <tag>Beyond-Compare</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Axure相关笔记]]></title>
+    <url>%2Faxure-relate.html</url>
+    <content type="text"><![CDATA[Axure 8.1.0.3381注册码12345License：zdfansKey：fZw2VoYzXakllUuLVdTH13QYWnjD6NZrxgubQkaRyxD5+HNMqdr+WZKkaa6IoE5NLicensee：zd423Key：LrZoHQetrL7OK8XOVWgvTFn+XOR32hQkrxkYj0CkbDUsvvENp6GCS38B8GiOS1ec]]></content>
+      <categories>
+        <category>others</category>
+      </categories>
+      <tags>
+        <tag>axure</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[maven安装笔记]]></title>
+    <url>%2Fmaven-install.html</url>
+    <content type="text"><![CDATA[下载安装包http://maven.apache.org/download.cgi 解压配制环境变量1MAVEN_HOME,Path 测试安装情况1mvn -version 修改配制1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071 &lt;!--本地仓库存储jar包的位置--&gt; &lt;localRepository&gt;D:/appdata/maven-base&lt;/localRepository&gt; &lt;!--配置server--&gt; &lt;servers&gt; &lt;server&gt; &lt;id&gt;nexus-releases&lt;/id&gt; &lt;username&gt;admin&lt;/username&gt; &lt;password&gt;admin123&lt;/password&gt; &lt;/server&gt; &lt;server&gt; &lt;id&gt;nexus-snapshots&lt;/id&gt; &lt;username&gt;admin&lt;/username&gt; &lt;password&gt;admin123&lt;/password&gt; &lt;/server&gt; &lt;/servers&gt; &lt;!--本地nexus镜像地址--&gt; &lt;mirror&gt; &lt;id&gt;my-nexus&lt;/id&gt; &lt;name&gt;my nexus&lt;/name&gt; &lt;mirrorOf&gt;*&lt;/mirrorOf&gt; &lt;url&gt;http://192.168.10.10:8081/repository/maven-public/&lt;/url&gt; &lt;/mirror&gt; &lt;!--阿里云nexus镜像--&gt; &lt;mirror&gt; &lt;id&gt;aliyun-nexus&lt;/id&gt; &lt;name&gt;aliyun nexus&lt;/name&gt; &lt;mirrorOf&gt;center&lt;/mirrorOf&gt; &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public&lt;/url&gt;&lt;/mirror&gt; &lt;!--配置profile--&gt; &lt;profile&gt; &lt;id&gt;nexus&lt;/id&gt; &lt;repositories&gt; &lt;repository&gt; &lt;id&gt;nexus-releases&lt;/id&gt; &lt;url&gt;http://my-nexus&lt;/url&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt; &lt;/repository&gt; &lt;/repositories&gt; &lt;pluginRepositories&gt; &lt;pluginRepository&gt; &lt;id&gt;nexus-releases&lt;/id&gt; &lt;url&gt;http://my-nexus&lt;/url&gt; &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt; &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt; &lt;/pluginRepository&gt; &lt;/pluginRepositories&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;jdk18&lt;/id&gt; &lt;activation&gt; &lt;activeByDefault&gt;true&lt;/activeByDefault&gt; &lt;jdk&gt;1.8&lt;/jdk&gt; &lt;/activation&gt; &lt;properties&gt; &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt; &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt; &lt;maven.compiler.compilerVersion&gt;1.8&lt;/maven.compiler.compilerVersion&gt; &lt;/properties&gt; &lt;/profile&gt; &lt;!--应用profile--&gt; &lt;activeProfiles&gt; &lt;activeProfile&gt;nexus&lt;/activeProfile&gt; &lt;activeProfile&gt;jdk18&lt;/activeProfile&gt; &lt;/activeProfiles&gt; 需上传打包文件在pom.xml增加如下配制1234567891011121314&lt;distributionManagement&gt; &lt;repository&gt; &lt;id&gt;nexus-releases&lt;/id&gt; &lt;url&gt; http://192.168.10.10:8081/repository/maven-public/ &lt;/url&gt; &lt;/repository&gt; &lt;snapshotRepository&gt; &lt;id&gt;nexus-snapshots&lt;/id&gt; &lt;url&gt; http://192.168.10.10:8081/repository/maven-snapshots/ &lt;/url&gt; &lt;/snapshotRepository&gt;&lt;/distributionManagement&gt;]]></content>
+      <categories>
+        <category>maven</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[screen命令使用笔记]]></title>
+    <url>%2Fscreen-relate.html</url>
+    <content type="text"><![CDATA[常用命令备忘查询screen会话列表1screen -ls 创建screen会话1screen -S 会话名 退出screen会话1Ctrl+a d 清理dead会话1screen -wipe 重新进入screen会话1screen -r 会话名 删除screen会话1kill -9 会话ID 常见问题处理Cannot open your terminal ‘/dev/pts/0’ - please check.1script /dev/null]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>screen</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GitLab相关笔记]]></title>
+    <url>%2Fgitlab-relate.html</url>
+    <content type="text"><![CDATA[通过access_token免密拉取代码12#在http仓库地址中增加上 oauth2:ACCESS_TOKEN@ 即可，access_token需要在相关页面生成git clone http://oauth2:ACCESS_TOKEN@abc.com/abc/abc.git]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>GitLab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tomcat相关笔记]]></title>
+    <url>%2Ftomcat-relate.html</url>
+    <content type="text"><![CDATA[遇到异常及处理方法tomcat8.5.15 报Invalid character found in the request target错12345Note: further occurrences of HTTP header parsing errors will be logged at DEBUG level. java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986 at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:472) at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:683) at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) 在conf/catalina.properties中最后添加一行1org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true]]></content>
+      <categories>
+        <category>tomcat</category>
+      </categories>
+      <tags>
+        <tag>tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql常见问题处理]]></title>
+    <url>%2Fmysql-problem.html</url>
+    <content type="text"><![CDATA[mysql远程连接很慢修改文件MY.INI(WINDOWS系统下)或MY.CNF(UNIX或LINUX系统下)[mysqld]下加入 skip-name-resolve mysql5.x忘记root密码先停掉mysql服务在一个窗口中，运行1234567mysqld --skip-grant-tables ``` 在另一窗口中，运行```sqluse mysql;update user set Password=password(&apos;123456&apos;) where User=&apos;root&apos;;flush privileges; 重启mysql服务]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何在Excel中批量实现MD5加密]]></title>
+    <url>%2Fexcel-md5.html</url>
+    <content type="text"><![CDATA[下载MD5宏脚本链接: https://pan.baidu.com/s/16qvUmAmNMku4Qd77y9lgQg提取码: 7bsj 操作步骤工具栏展现【开发工具】依次打开【文件】-【选项】-【自定义功能区】 选择【开发工具】 添加宏加载项选择【加载项】-【浏览】-选择刚刚下载解压过的宏脚本-【确定】-勾选【Md5宏】-【确定】 使用转换函数1LOWER(Md5_String_Calc(H2)) 参考原文http://cxy7.com/articles/2018/06/28/1530182299325.html]]></content>
+      <categories>
+        <category>others</category>
+      </categories>
+      <tags>
+        <tag>excel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Shadowsocks相关使用笔记]]></title>
+    <url>%2Fshadowsocks.html</url>
+    <content type="text"><![CDATA[安装网址https://www.zhoudaxiaa.com/archives/35.html]]></content>
+      <categories>
+        <category>others</category>
+      </categories>
+      <tags>
+        <tag>shadowsocks</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Jenkins相关问题处理]]></title>
+    <url>%2Fjenkins-relate.html</url>
+    <content type="text"><![CDATA[如何设置成北京时间打开 【系统管理】-&gt;【脚本命令行】运行下面的命令1System.setProperty(&apos;org.apache.commons.jelly.tags.fmt.timeZone&apos;, &apos;Asia/Shanghai&apos;)]]></content>
+      <categories>
+        <category>Jenkins</category>
+      </categories>
+      <tags>
+        <tag>Jenkins</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[查看手机的IMEI]]></title>
+    <url>%2Fimei-relate.html</url>
+    <content type="text"><![CDATA[关于IMEIInternational Mobile Equipment Identity 国际移动设备身份 在拨号盘中输入*#06#,查看IMEI信息如果手机支持电信CDMA网络，还会出现IMEID的信息。]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[thymeleaf中引入shiro属性做权限判断]]></title>
+    <url>%2Fjava-thymeleaf-shiro.html</url>
+    <content type="text"><![CDATA[pom.xml123456&lt;!-- https://mvnrepository.com/artifact/com.github.theborakompanioni/thymeleaf-extras-shiro --&gt; &lt;dependency&gt; &lt;groupId&gt;com.github.theborakompanioni&lt;/groupId&gt; &lt;artifactId&gt;thymeleaf-extras-shiro&lt;/artifactId&gt; &lt;version&gt;2.0.0&lt;/version&gt; &lt;/dependency&gt; shiro configuration类1234@Beanpublic ShiroDialect shiroDialect() &#123; return new ShiroDialect();&#125; 页面引入1234567&lt;html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"&gt;...&lt;div shiro:hasPermission="add"&gt; &lt;a th:href="@&#123;/add&#125;"&gt;新增&lt;/a&gt;&lt;/div&gt;...&lt;/html&gt;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java开发相关细节备忘]]></title>
+    <url>%2Fjava-relate.html</url>
+    <content type="text"><![CDATA[linux环境配制下载JDK下载网页：https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html选择linux相关的安装包： jdk-8u191-linux-x64.tar.gz下载之后解压到相应目录12tar zxvf jdk-8u191-linux-x64.tar.gzmv jdk1.8.0_191 /usr/local/java/ 配制环境变量1、编辑/etc/profile12345export JAVA_HOME=/usr/local/java/jdk1.8.0_131export JAVA_BIN=/usr/local/java/jdk1.8.0_131/binexport PATH=$PATH:$JAVA_HOME/binexport CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME JAVA_BIN PATH CLASSPATH 2、生效配制1source /etc/profile 3、版本测试1java -version]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[markdown相关书写规则备忘]]></title>
+    <url>%2Fmarkdown-relate.html</url>
+    <content type="text"><![CDATA[插入图片1![Alt text](图片链接 &quot;optional title&quot;) Alt text：图片的Alt标签，用来描述图片的关键词，可以不写。最初的本意是当图片因为某种原因不能被显示时而出现的替代文字，后来又被用于SEO，可以方便搜索引擎根据Alt text里面的关键词搜索到图片。 图片链接：可以是图片的本地地址或者是网址。”optional title”：鼠标悬置于图片上会出现的标题文字，可以不写。免费图片空间：https://i.niupic.com/ 换行在末尾敲击两个以上空白，然后回车 空格1添加&amp;#160;或者&amp;nbsp; 插入表格1234| 左对齐标题 | 右对齐标题 | 居中对齐标题 || :------| ------: | :------: || 文本 | 中等文本 | 稍微长一点的文本 || 微长一点的文本 | 短文本 | 中等文本 | 表格的语句上一行必须为空行，不然表格不生效。默认标题栏居中对齐，内容居左对齐。-:表示内容和标题栏居右对齐，:-表示内容和标题栏居左对齐，:-:表示内容和标题栏居中对齐。]]></content>
+      <categories>
+        <category>markdown</category>
+      </categories>
+      <tags>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[go开发相关细节]]></title>
+    <url>%2Fgo-relate.html</url>
+    <content type="text"><![CDATA[golang开发环境配制1、下载安装包 https://studygolang.com/dl2、配制环境变量12GOROOT=//go的安装目录,安装时会自动配制GOPATH=//go应用的基准目录]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Maven项目中src/main/java目录下的xml文件没有被编译]]></title>
+    <url>%2Fjava-maven-xml-not-compile.html</url>
+    <content type="text"><![CDATA[修改pom.xml1234567891011121314&lt;build&gt; ... &lt;resources&gt; &lt;!--编译src/main/java目录下的xml文件--&gt; &lt;resource&gt; &lt;directory&gt;src/main/java&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;**/*.xml&lt;/include&gt; &lt;/includes&gt; &lt;filtering&gt;true&lt;/filtering&gt; &lt;/resource&gt; &lt;/resources&gt; ... &lt;/build&gt;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[windows相关的常见操作及问题]]></title>
+    <url>%2Fwindows-relate.html</url>
+    <content type="text"><![CDATA[windows常见问题windows出现0x0000003B蓝屏如何解决123安全模式下，输入“Internet Explorer” 找到IE浏览器，点击菜单栏上的“工具”-“Internet选项”，然后点击“删除”历史记录，将Win7系统IE浏览器上的历史记录进行清空]]></content>
+      <categories>
+        <category>others</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[nodejs相关笔记]]></title>
+    <url>%2Fnodejs-relate.html</url>
+    <content type="text"><![CDATA[安装淘宝npm镜像1npm install -g cnpm --registry=https://registry.npm.taobao.org]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux下查找文件并实现批量替换]]></title>
+    <url>%2Fbatchfile-find-replace.html</url>
+    <content type="text"><![CDATA[查找所有/usr/local/x目录test.txt文件1find /usr/local/x -name "test.txt" -print | xargs ls -l 替换所有找到的test.txt文件1find /usr/local/x -name "test.txt" -print | xargs -n1 cp -f ./test.txt 批量删除当前目录中所有.git目录或文件1find ./ -name ".git" | xargs rm -rf]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令]]></title>
+    <url>%2Flinux-relate.html</url>
+    <content type="text"><![CDATA[1234567891011121314151617181920212223#增加新用户uuuuseradd uuu; #增加用户uuu时指定分组ggguseradd -g ggg uuu; #给用户uuu设置密码passwd uuu; #增加分组ggggroupadd ggg; #添加一个用户uuu到指定的组ggg，但是以前添加的组就会清空掉usermod -G ggg uuu; #添加一个用户到一个组，同时保留以前添加的组时gpasswd -a uuu ggg; #递归修改目录/dir所属用户组到gggchgrp -R ggg /dir;#递归修改目录/dir拥有者到uuuchown -R uuu /dir]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql相关笔记]]></title>
+    <url>%2Fmysql-relate.html</url>
+    <content type="text"><![CDATA[增加一个用户、允许某个用户远程访问12grant all privileges on base_a.table_b to abc@192.168.45.78 identified by 'password';flush privileges; 导入数据1mysql -h192.168.10.10 -uroot -p"123" site_1 &lt; /usr/test/abc.sql 导出数据1/usr/local/mysql/bin/mysqldump -h192.168.10.10 -uroot -p base_a table_b --where="" &gt; /usr/test/abc.sql]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git相关设置及使用笔记]]></title>
+    <url>%2Fgit-relate.html</url>
+    <content type="text"><![CDATA[git常用命令初始化仓库1git init git设置全局的用户名及邮箱12git config --global user.name &apos;xxx&apos;git config --global user.email xxx@abc.com 给特定项目指定用户名及邮箱,注：在项目目录下执行12git config user.name 用户名git config user.email 邮箱 创建本地分支1git branch 分支名 创建远程分支12#首次提交时得加上-u参数，建立本地与远程的关联关系，之后push可以不加git push -u origin （分支名） 切换本地分支1git checkout 分支名 拉取远程分支到指定的本地分支1git pull &lt;远程库名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt; 删除本地分支123git branch -D 分支名或git branch --delete 分支名 删除本地的远程分支1git branch -r -D origin/BranchName 删除远程服务器上的分支123git push origin -d 分支名或git push origin --delete 分支名 查看本地分支1git branch 查看远程分支1git branch -a 查看历史版本1git log 恢复到某个版本1git reset --hard 44bd896bb726be3d3815f1f25d738a9cd402a477 添加改变，提交到仓库12git add .git commit -m "xxx" 查看远程仓库地址1git remote -v 添加到远程仓库1git remote add origin https://github.com/XXX/YYY.git 删除远程地址1git remote rm origin 强制push到远程1git push -f origin develop 强制覆盖本地代码123git fetch --allgit reset --hard origin/mastergit pull git生成私钥与公钥1234#一般不设置密钥口令ssh-keygen -t rsa#查看公钥cat ~/.ssh/id_rsa.pub]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SecureCRT相关设置]]></title>
+    <url>%2Fsecurecrt-relate.html</url>
+    <content type="text"><![CDATA[跳板机自动登录到其他机器设置123Session Options &gt; Connection &gt; Logon Actions &gt; Automate logon]$ ssh xxx@172.12.15.123assword: xxxx 设置标签显示标题1Session Options &gt; Terminal &gt; Advanced &gt; Ignore window title change requests]]></content>
+      <categories>
+        <category>SecureCRT</category>
+      </categories>
+      <tags>
+        <tag>SecureCRT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Mysql安装相关备忘]]></title>
+    <url>%2Fmysql-install.html</url>
+    <content type="text"><![CDATA[Mysql8在windows下安装细节12345678mysqld --initialize#安装服务mysqld install#启动服务net start mysql#设置root密码为空串，在两个命令行窗口执行mysqld --console --skip-grant-tables --shared-memoryupdate user set authentication_string='' where user='root' Mysql8在mac下安装细节1从https://dev.mysql.com/downloads/ 下载相关安装包安装即可 docker安装mysql拉取镜像1docker pull mysql:5.6.44 启动容器1docker run --name mysql -d -v /d/data-base/mysql5.6.44/conf:/etc/mysql/conf.d -v /d/data-base/mysql5.6.44/data:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=&quot;123456&quot; mysql:5.6.44]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JetBrains IDE 2018版的破解方法]]></title>
+    <url>%2FJetBrains-IDE-crack.html</url>
+    <content type="text"><![CDATA[下载破解jar包，修改配制文件xxx.vmoptionsWindows链接: https://pan.baidu.com/s/1jYOXvSp3xT6GtVkqvJ8jpg提取码: nnizMac链接: https://pan.baidu.com/s/1XL2Cb2x11xXrQGAbLd0C7A提取码: sveg 12345-javaagent:xxx\xxx\JetbrainsCrack-3.1-release-enc.jar//PyCharm windows:-javaagent:xxx\xxx\JetbrainsCrack-release-enc.jar//PyCharm mac:-javaagent:/Applications/PyCharm.app/Contents/bin/JetbrainsCrack-release-enc-mac.jar 启动IDE，填入相应的active code就行IntelliJ IDEA1234567891011121314151617181920212223242526&#123;"licenseId":"1337","licenseeName":"idea","assigneeName":"","assigneeEmail":"","licenseRestriction":"Unlimited license till end of the century.","checkConcurrentUse":false,"products":[&#123;"code":"II","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DM","paidUpTo":"2099-12-31"&#125;,&#123;"code":"AC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RS0","paidUpTo":"2099-12-31"&#125;,&#123;"code":"WS","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DPN","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"PS","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RM","paidUpTo":"2099-12-31"&#125;,&#123;"code":"CL","paidUpTo":"2099-12-31"&#125;,&#123;"code":"PC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DB","paidUpTo":"2099-12-31"&#125;,&#123;"code":"GO","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RD","paidUpTo":"2099-12-31"&#125;],"hash":"2911276/0","gracePeriodDays":7,"autoProlongated":false&#125; GoLand123456789101112131415161718192021222324ThisCrackLicenseId-&#123; "licenseId":"ThisCrackLicenseId", "licenseeName":"idea", "assigneeName":"", "assigneeEmail":"idea@163.com", "licenseRestriction":"For This Crack, Only Test! Please support genuine!!!", "checkConcurrentUse":false, "products":[ &#123;"code":"II","paidUpTo":"2099-12-31"&#125;, &#123;"code":"DM","paidUpTo":"2099-12-31"&#125;, &#123;"code":"AC","paidUpTo":"2099-12-31"&#125;, &#123;"code":"RS0","paidUpTo":"2099-12-31"&#125;, &#123;"code":"WS","paidUpTo":"2099-12-31"&#125;, &#123;"code":"DPN","paidUpTo":"2099-12-31"&#125;, &#123;"code":"RC","paidUpTo":"2099-12-31"&#125;, &#123;"code":"PS","paidUpTo":"2099-12-31"&#125;, &#123;"code":"DC","paidUpTo":"2099-12-31"&#125;, &#123;"code":"RM","paidUpTo":"2099-12-31"&#125;, &#123;"code":"CL","paidUpTo":"2099-12-31"&#125;, &#123;"code":"PC","paidUpTo":"2099-12-31"&#125; ], "hash":"2911276/0", "gracePeriodDays":7, "autoProlongated":false&#125; DataGrip123456789101112131415161718192021222324ThisCrackLicenseId-&#123; "licenseId":"ThisCrackLicenseId", "licenseeName":"idea", "assigneeName":"", "assigneeEmail":"idea@163.com", "licenseRestriction":"For This Crack, Only Test! Please support genuine!!!", "checkConcurrentUse":false, "products":[ &#123;"code":"II","paidUpTo":"2099-12-31"&#125;, &#123;"code":"DM","paidUpTo":"2099-12-31"&#125;, &#123;"code":"AC","paidUpTo":"2099-12-31"&#125;, &#123;"code":"RS0","paidUpTo":"2099-12-31"&#125;, &#123;"code":"WS","paidUpTo":"2099-12-31"&#125;, &#123;"code":"DPN","paidUpTo":"2099-12-31"&#125;, &#123;"code":"RC","paidUpTo":"2099-12-31"&#125;, &#123;"code":"PS","paidUpTo":"2099-12-31"&#125;, &#123;"code":"DC","paidUpTo":"2099-12-31"&#125;, &#123;"code":"RM","paidUpTo":"2099-12-31"&#125;, &#123;"code":"CL","paidUpTo":"2099-12-31"&#125;, &#123;"code":"PC","paidUpTo":"2099-12-31"&#125; ], "hash":"2911276/0", "gracePeriodDays":7, "autoProlongated":false&#125; PyCharm123456789101112131415161718192021222324ThisCrackLicenseId-&#123;"licenseId":"11011","licenseeName":"idea","assigneeName":"idea","assigneeEmail":"idea@163.com","licenseRestriction":"","checkConcurrentUse":false,"products":[&#123;"code":"II","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DM","paidUpTo":"2099-12-31"&#125;,&#123;"code":"AC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RS0","paidUpTo":"2099-12-31"&#125;,&#123;"code":"WS","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DPN","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"PS","paidUpTo":"2099-12-31"&#125;,&#123;"code":"DC","paidUpTo":"2099-12-31"&#125;,&#123;"code":"RM","paidUpTo":"2099-12-31"&#125;,&#123;"code":"CL","paidUpTo":"2099-12-31"&#125;,&#123;"code":"PC","paidUpTo":"2099-12-31"&#125;],"hash":"2911276/0","gracePeriodDays":7,"autoProlongated":false&#125;]]></content>
+      <categories>
+        <category>IDE</category>
+      </categories>
+      <tags>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo安装使用过程中出现的一些问题]]></title>
+    <url>%2Fhexo-install.html</url>
+    <content type="text"><![CDATA[按照Hexo官网进行安装时，使用npm总是有些模块安装不成功，最后采用yarn方式，很快处理好了。 Hexo帮助文档1https://hexo.io/zh-cn/docs/ Hexo组件扩展增加浏览器实时刷新功能模块1yarn install hexo-browsersync 启用hexo服务12//-p参与可以指定端口hexo server -p 5000 增加项目部署功能模块1yarn install hexo-deployer-git 部署到github站点1hexo d -g 去掉valine的版本信息/themes/next/layout/_third-party/comments/valine.swig1234var infoEle = document.querySelector('#comments .info');if (infoEle &amp;&amp; infoEle.childNodes &amp;&amp; infoEle.childNodes.length &gt; 0)&#123; infoEle.parentNode.removeChild(infoEle);&#125; github网站绑定阿里云域名在目录themes/next/source下增加CNAME文件1www.witasiam.com 文章头部编辑示例12345title: 标题date: 2019-01-01 10:10:10 //更换机器重新生成时就不会把日期替换成前日期updated: 2019-01-01 10:10:10tags: 标签categories: 分类]]></content>
+      <categories>
+        <category>前端开发</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
